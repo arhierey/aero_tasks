@@ -1,14 +1,19 @@
 import requests as rq
 
+
+def get_key(filename):
+    with open(filename, 'r') as file:
+        output = file.read()
+    return output
+
+
 url = 'http://api.aviationstack.com/v1/flights'
-args = {'access_key': '***'}
+args = {'access_key': get_key('KEY.txt')}
 
 res = rq.get(url, args)
 response = res.json()
 data = response['data']
 
-some_data = dict(data[0])
-keys = list(some_data.keys())
-
-for key in keys:
-    print(some_data[key])
+with open('api_output.txt', 'w') as f:
+    for i in range(0, len(data)):
+        f.write("%s\n" % data[i])
